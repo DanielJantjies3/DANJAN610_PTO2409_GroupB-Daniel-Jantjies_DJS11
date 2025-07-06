@@ -10,7 +10,7 @@ function PodcastTile ({podcast}) {
 
     <div className='podcastContainer'>
         <div className='podcastPoster'>
-            <img src={podcast.url}  alt={podcast.title}/>
+            <img src={podcast.image}  alt={podcast.title}/>
             <div className='posterOverlay'>
                     <button className='favorite-btn' onClick={onFavoriteClick}>🖤</button>
             </div>
