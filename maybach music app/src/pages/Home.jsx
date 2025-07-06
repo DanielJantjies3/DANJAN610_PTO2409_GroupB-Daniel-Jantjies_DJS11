@@ -1,5 +1,6 @@
 import PodcastTile from "../components/PodcastTile";
 import { useState } from "react";
+import fuzzysearch from "fuzzysearch";
 
 function Home() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -57,8 +58,10 @@ function Home() {
         </button>
       </form>
       <div className="podcastGrid">
-        {podcasts.map((currentPodcast) => 
-            currentPodcast.title.toLowerCase().includes(searchQuery.toLowerCase()) &&
+        {podcasts.filter((currentPodcast) => fuzzysearch(searchQuery.toLowerCase(), currentPodcast.title.toLowerCase()))
+        
+        .map((currentPodcast) => 
+            
         (
           <PodcastTile key={currentPodcast.id} podcast={currentPodcast} />
         ))}
