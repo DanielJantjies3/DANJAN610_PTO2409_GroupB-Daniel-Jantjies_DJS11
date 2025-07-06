@@ -19,8 +19,8 @@ function PodcastTile ({podcast}) {
             <h3 className='podcastTitle'>{podcast.title}</h3>
             <h3 className='podcastSeason'>{podcast.season} {podcast.season === 1 ? 'Season' : 'Seasons'}</h3>
             <p className='podcastDescription'>{podcast.description}</p>
-            <p className='podcastHosts'>{podcast.hosts.join("")}</p>
-            <p className='podcastGenre'>{podcast.genre.join("")}</p>
+            <p className='podcastHosts'>{podcast.hosts.join(",")}</p>
+            <p className='podcastGenre'>{podcast.genres.join(",")}</p>
 
 
         </div>
