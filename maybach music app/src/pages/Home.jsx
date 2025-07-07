@@ -1,40 +1,27 @@
 import PodcastTile from "../components/PodcastTile";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import fuzzysearch from "fuzzysearch";
+import { fetchAllPodcasts } from "../services/api";
+import { fetchAllPodcastsByGenre } from "../services/api";
+import { fetchPodcastById } from "../services/api";
+
 
 function Home() {
   const [searchQuery, setSearchQuery] = useState("");
 
-  const podcasts = [
-    {
-      id: 1,
-      title: "Podcast One",
-      image: "https://via.placeholder.com/150",
-      season: 1,
-      description: "This is a description of the first podcast.",
-      hosts: ["Host A", "Host B"],
-      genres: ["Comedy", "Technology"],
-    },
-    {
-      id: 2,
-      title: "Podcast Two",
-      image: "https://via.placeholder.com/150",
-      season: 2,
-      description: "This is a description of the second podcast.",
-      hosts: ["Host C", "Host D"],
-      genres: ["Business", "Marketing"],
-    },
+  const [podcasts, setPodcasts] = useState([]);
 
-    {
-      id: 3,
-      title: "Podcast Three",
-      image: "https://via.placeholder.com/150",
-      season: 2,
-      description: "This is a description of the second podcast.",
-      hosts: ["Host C", "Host D"],
-      genres: ["Business", "Marketing"],
-    },
-  ];
+  useEffect(() => {
+    async function loadPodcasts() {
+        const allPodcasts = await fetchAllPodcasts()
+        setPodcasts (allPodcasts)
+    } 
+
+    loadPodcasts();
+
+  },[]) 
+
+
 
   const handleSearch = (e) => {
     e.preventDefault()
