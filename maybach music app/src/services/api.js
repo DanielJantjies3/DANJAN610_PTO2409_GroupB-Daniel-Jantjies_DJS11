@@ -27,7 +27,7 @@ export async function fetchAllPodcastsByGenre(genreID) {
     try {
         const response = await fetch(`${BASE_URL}/genre/${genreID}`);
         const data = await response.json()
-        return data.results;
+        return data;
     }
     catch (error){
         console.error("Failed to fetch the data from the end point ", error);
