@@ -1,26 +1,10 @@
-
-import React, { useEffect, useState } from "react";
-import { fetchAllPodcastsByGenre } from "../services/api";
 import { usePodcastContext } from "../contexts/PodcastContext";
 
 
 function PodcastModel({ podcast }) {
   const { isFavorite, addToFavorites, removeFavorites } = usePodcastContext();
   const isFav = isFavorite(podcast.id);
-  const [genres, setGenres] = useState([]);
 
-  useEffect(() => {
-    async function fetchGenres() {
-      
-      const allTitles = podcast.genres.map(async (genreId) => {
-        const data = await fetchAllPodcastsByGenre(genreId);
-        return data.title;
-      });
-      const resolvedTitles = await Promise.all(allTitles);
-      setGenres(resolvedTitles);
-    }
-    fetchGenres();
-  }, [podcast.genres]);
 
   function onFavoriteClick(e) {
     e.preventDefault();
@@ -62,7 +46,7 @@ function PodcastModel({ podcast }) {
           </span>
         </div>
         <div className="mt-2 flex flex-wrap gap-1">
-          {genres.map((genre, index) => (
+          {(podcast.genres || []).map((genre, index) => (
             <span
               key={index}
               className="text-xs bg-gray-700 text-gray-300 px-2 py-1 rounded"
