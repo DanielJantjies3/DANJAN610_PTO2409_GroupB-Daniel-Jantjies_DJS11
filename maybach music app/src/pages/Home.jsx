@@ -46,7 +46,10 @@ function Home() {
         <div className="loading text-center text-lg text-gray-500">Loading...</div>
       ) : (
         <div className="w-full overflow-x-auto">
-          <div className="flex gap-4 pb-4" style={{ minHeight: '260px' }}>
+          <div
+            className="flex gap-4 pb-4"
+            style={{ minHeight: '220px' }}
+          >
             {podcasts
               .filter((currentPodcast) =>
                 fuzzysearch(
@@ -55,7 +58,10 @@ function Home() {
                 )
               )
               .map((currentPodcast) => (
-                <div key={currentPodcast.id} className="flex-shrink-0 w-56">
+                <div
+                  key={currentPodcast.id}
+                  className="flex-shrink-0 w-44 sm:w-52 md:w-56 lg:w-64 xl:w-72"
+                >
                   <PodcastTile podcast={currentPodcast} smallCarousel />
                 </div>
               ))}

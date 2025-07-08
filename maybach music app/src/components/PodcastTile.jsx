@@ -71,7 +71,7 @@ function PodcastTile({ podcast }) {
             {podcast.title}
           </h3>
           <span className="bg-purple-600/90 text-white text-[0.65rem] font-bold px-1.5 py-0.5 rounded whitespace-nowrap">
-            {podcast.seasons} {podcast.seasons === 1 ? "S" : "S"}
+            {podcast.seasons} {podcast.seasons === 1 ? "Season" : "Seasons"}
           </span>
         </div>
    
