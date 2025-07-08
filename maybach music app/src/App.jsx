@@ -8,6 +8,7 @@ import { Route, Routes } from "react-router-dom";
 import Favorites from "./pages/Favorites";
 import NavBar from "./components/NavBar";
 import { PodcastProvider } from "./contexts/PodcastContext";
+import DisplayPodcast from "./pages/DisplayPodcast";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/favorites" element={<Favorites />} />
+          <Route path="/podcast/:id" element= {<DisplayPodcast />} />
         </Routes>
       </main>
     </PodcastProvider>
