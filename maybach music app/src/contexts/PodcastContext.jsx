@@ -22,7 +22,7 @@ export const PodcastProvider = ({ children }) => {
   };
 
   const removeFavorites = (podcastId) => {
-    setFavorites(prev => prev.filter(movie => podcast.id !==podcastId))
+    setFavorites(prev => prev.filter(podcast => podcast.id !==podcastId))
   }
 
   const isFavorite = (podcastId) => {
@@ -40,3 +40,5 @@ export const PodcastProvider = ({ children }) => {
 }
 
 export default PodcastProvider
+
+
