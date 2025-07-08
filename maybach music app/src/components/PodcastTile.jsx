@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { fetchAllPodcastsByGenre } from "../services/api";
 import { usePodcastContext } from "../contexts/PodcastContext";
 
-
 function PodcastTile({ podcast }) {
   const { isFavorite, addToFavorites, removeFavorites } = usePodcastContext();
   const isFav = isFavorite(podcast.id);
@@ -11,7 +10,6 @@ function PodcastTile({ podcast }) {
 
   useEffect(() => {
     async function fetchGenres() {
-      
       const allTitles = podcast.genres.map(async (genreId) => {
         const data = await fetchAllPodcastsByGenre(genreId);
         return data.title;
@@ -32,50 +30,60 @@ function PodcastTile({ podcast }) {
   }
 
   return (
-    <div className="group relative bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
-      <div className="relative aspect-video">
+    <div className="group relative bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] hover:z-10 w-full">
+
+      <div className="relative aspect-[2/3]">
         <img
           src={podcast.image}
           alt={podcast.title}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover group-hover:brightness-110 transition duration-300"
         />
-
+ 
         <button
           onClick={onFavoriteClick}
-          className={`absolute top-2 right-2 z-10 p-2 rounded-full shadow-md ${isFav ? "text-red-500 bg-white" : "text-white bg-gray-900/70"} transition-colors`}
+          className={`absolute top-2 right-2 z-10 p-1.5 rounded-full shadow-lg ${isFav ? "text-red-500 bg-white/90" : "text-white bg-gray-900/70"} transition-colors hover:scale-110`}
           aria-label={isFav ? "Remove from favorites" : "Add to favorites"}
         >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill={isFav ? "currentColor" : "none"} viewBox="0 0 24 24" stroke="currentColor">
+          <svg 
+            xmlns="http://www.w3.org/2000/svg" 
+            className="h-5 w-5" 
+            fill={isFav ? "currentColor" : "none"} 
+            viewBox="0 0 24 24" 
+            stroke="currentColor"
+          >
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
           </svg>
         </button>
-    
-        <div className="absolute inset-0 bg-green bg-opacity-5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+
+        <div className="absolute inset-0 flex items-center justify-center bg-black/80 bg-opacity-90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 p-3 pointer-events-none">
+          <p className="text-xs text-gray-100 text-center max-h-full overflow-y-auto select-none">
+            {podcast.description && podcast.description.length > 200
+              ? podcast.description.slice(0, 200) + '...'
+              : podcast.description}
+          </p>
+        </div>
       </div>
-      <div className="p-4">
-        <div className="flex justify-between items-start">
-          <h3 className="text-lg font-bold text-white truncate max-w-[70%]">
+
+      
+      <div className="p-3">
+        <div className="flex justify-between items-start gap-2">
+          <h3 className="text-sm font-bold text-white truncate flex-1">
             {podcast.title}
           </h3>
-          <span className="bg-purple-600 text-white text-xs font-bold px-2 py-1 rounded">
-            {podcast.seasons} {podcast.seasons === 1 ? "Season" : "Seasons"}
+          <span className="bg-purple-600/90 text-white text-[0.65rem] font-bold px-1.5 py-0.5 rounded whitespace-nowrap">
+            {podcast.seasons} {podcast.seasons === 1 ? "S" : "S"}
           </span>
         </div>
-        <div className="mt-2 flex flex-wrap gap-1">
-          {genres.map((genre, index) => (
+   
+        <div className="mt-1.5 flex flex-wrap gap-1">
+          {genres.slice(0, 2).map((genre, index) => (
             <span
               key={index}
-              className="text-xs bg-gray-700 text-gray-300 px-2 py-1 rounded"
+              className="text-[0.6rem] bg-gray-700/80 text-gray-300 px-1.5 py-0.5 rounded"
             >
               {genre}
             </span>
           ))}
-        </div>
-        <div className="mt-3 relative">
-          <p className="text-sm text-gray-400 line-clamp-2 group-hover:line-clamp-none transition-all">
-            {podcast.description}
-          </p>
-          <div className="absolute bottom-0 right-0 h-6 w-10 bg-gradient-to-l from-gray-800 to-transparent group-hover:hidden"></div>
         </div>
       </div>
     </div>

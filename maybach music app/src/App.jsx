@@ -13,17 +13,18 @@ import DisplayPodcast from "./pages/DisplayPodcast";
 function App() {
   return (
     <>
-    <PodcastProvider>
-      <NavBar />
-
-      <main className="mainContent">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/favorites" element={<Favorites />} />
-          <Route path="/podcast/:id" element= {<DisplayPodcast />} />
-        </Routes>
-      </main>
-    </PodcastProvider>
+      <div className="w-full fixed top-0 left-0 z-50">
+        <NavBar />
+      </div>
+      <PodcastProvider>
+        <main className="mainContent pt-16">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/favorites" element={<Favorites />} />
+            <Route path="/podcast/:id" element={<DisplayPodcast />} />
+          </Routes>
+        </main>
+      </PodcastProvider>
     </>
   );
 }
