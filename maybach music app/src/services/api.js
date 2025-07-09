@@ -1,4 +1,4 @@
-const BASE_URL = "https://podcast-api.netlify.app/";
+const BASE_URL = "https://podcast-api.netlify.app";
 
 export async function fetchAllPodcasts() {
     try {
