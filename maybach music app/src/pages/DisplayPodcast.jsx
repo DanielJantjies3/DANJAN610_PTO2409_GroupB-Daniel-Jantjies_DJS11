@@ -17,13 +17,16 @@ useEffect(()=>{
     loadPodcastFromApi();
 }, [id]); 
 
+if (!podcast){
+  return (<div>
+    loading...
+    </div>)
+}
+
 
   return (
     <div>
-        <h1>Podcast Title</h1>
-      
             <PodcastModel key={podcast.id} podcast={podcast} />
- 
     </div>
   )
 }
