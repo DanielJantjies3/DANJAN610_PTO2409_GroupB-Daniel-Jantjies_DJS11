@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { fetchAllPodcastsByGenre } from "../services/api";
 import { usePodcastContext } from "../contexts/PodcastContext";
+import { Link } from "react-router-dom";
 
 function PodcastTile({ podcast }) {
   const { isFavorite, addToFavorites, removeFavorites } = usePodcastContext();
@@ -30,7 +31,8 @@ function PodcastTile({ podcast }) {
   }
 
   return (
-    <div className="group relative bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] hover:z-10 w-full">
+
+    <Link to= {`/podcast/${podcast.id}`} className="group relative bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] hover:z-10 w-full">
 
       <div className="relative aspect-[2/3]">
         <img
@@ -86,7 +88,7 @@ function PodcastTile({ podcast }) {
           ))}
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 
