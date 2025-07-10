@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import fuzzysearch from "fuzzysearch";
 import PodcastTile from "../components/PodcastTile";
 
-function Favorites() {
+function Favorites({genres}) {
   const [searchQuery, setSearchQuery] = useState("");
 
   const { favorites } = usePodcastContext();

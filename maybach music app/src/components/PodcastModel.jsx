@@ -1,12 +1,13 @@
+import { useEffect, useState } from "react";
 import { usePodcastContext } from "../contexts/PodcastContext";
 
-
 function PodcastModel({ podcast }) {
-  const { isFavorite, addToFavorites, removeFavorites } = usePodcastContext();
+  const { addToFavorites, removeFavorites, isFavorite, setTrack } =
+    usePodcastContext();
   const isFav = isFavorite(podcast.id);
+  const [selectedSeasonIdx, setSelectedSeasonIdx] = useState(0);
 
-
-  function onFavoriteClick(e) {
+  function onFavClick(e) {
     e.preventDefault();
     if (isFav) {
       removeFavorites(podcast.id);
@@ -15,51 +16,128 @@ function PodcastModel({ podcast }) {
     }
   }
 
-  return (
-    <div className="group relative bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
-      <div className="relative aspect-video">
-        <img
-          src={podcast.image}
-          alt={podcast.title}
-          className="w-full h-full object-cover"
-        />
+  const seasons = podcast.seasons || [];
+  const selectedSeason = seasons[selectedSeasonIdx] || {};
+  const episodes = selectedSeason.episodes || [];
 
-        <button
-          onClick={onFavoriteClick}
-          className={`absolute top-2 right-2 z-10 p-2 rounded-full shadow-md ${isFav ? "text-red-500 bg-white" : "text-white bg-gray-900/70"} transition-colors`}
-          aria-label={isFav ? "Remove from favorites" : "Add to favorites"}
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill={isFav ? "currentColor" : "none"} viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-          </svg>
-        </button>
-    
-        <div className="absolute inset-0 bg-green bg-opacity-5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-      </div>
-      <div className="p-4">
-        <div className="flex justify-between items-start">
-          <h3 className="text-lg font-bold text-white truncate max-w-[70%]">
-            {podcast.title}
-          </h3>
-          <span className="bg-purple-600 text-white text-xs font-bold px-2 py-1 rounded">
-            {(podcast.seasons ? podcast.seasons.length : 0)} {(podcast.seasons && podcast.seasons.length === 1 ? "Season" : "Seasons")}
-          </span>
+  return (
+    <div className="podcastModelContainer flex flex-col md:flex-row gap-8 md:gap-12">
+      
+      <div className="flex-1 min-w-[220px] max-w-xs">
+        <div className="relative">
+          <img
+            src={podcast.image}
+            alt={podcast.title}
+            className="w-full rounded-lg mb-4 shadow"
+          />
+          <button
+            className={`absolute top-2 right-2 z-10 p-2 rounded-full shadow-md ${
+              isFav ? "text-red-500 bg-white" : "text-white bg-gray-900/70"
+            } transition-colors`}
+            aria-label={isFav ? "Remove from favorites" : "Add to favorites"}
+            onClick={onFavClick}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill={isFav ? "currentColor" : "none"}
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+              />
+            </svg>
+          </button>
         </div>
-        <div className="mt-2 flex flex-wrap gap-1">
-          {(podcast.genres || []).map((genre, index) => (
+        <h3 className="text-xl font-bold mt-2 mb-1 text-white">
+          {podcast.title}
+        </h3>
+        <h4 className="text-md text-purple-400 mb-2">
+          {seasons.length} {seasons.length === 1 ? "Season" : "Seasons"}
+        </h4>
+        <p className="text-gray-300 mb-2 text-sm">
+          {typeof podcast.description === "string"
+            ? podcast.description
+            : JSON.stringify(podcast.description)}
+        </p>
+        <div className="flex flex-wrap gap-2">
+          {(podcast.genres || []).map((genre, idx) => (
             <span
-              key={index}
+              key={idx}
               className="text-xs bg-gray-700 text-gray-300 px-2 py-1 rounded"
             >
-              {genre}
+              {typeof genre === "string"
+                ? genre
+                : genre.title || genre.name || JSON.stringify(genre)}
             </span>
           ))}
         </div>
-        <div className="mt-3 relative">
-          <p className="text-sm text-gray-400 line-clamp-2 group-hover:line-clamp-none transition-all">
-            {podcast.description}
-          </p>
-          <div className="absolute bottom-0 right-0 h-6 w-10 bg-gradient-to-l from-gray-800 to-transparent group-hover:hidden"></div>
+      </div>
+
+      {/* Right Side: Seasons and Episodes */}
+      <div className="flex-2 min-w-[260px] w-full"> 
+        
+        <div className="flex flex-wrap gap-2 mb-4">
+          {seasons.map((season, idx) => (
+            <button
+              key={season.season || idx}
+              className={`px-4 py-2 rounded border text-sm font-semibold ${
+                selectedSeasonIdx === idx
+                  ? "bg-purple-600 text-white border-purple-600"
+                  : "bg-white text-gray-800 border-gray-300"
+              }`}
+              onClick={() => setSelectedSeasonIdx(idx)}
+            >
+              {season.season || idx + 1}
+            </button>
+          ))}
+        </div>
+        {/* Episodes List */}
+        <div className="episodesList">
+          <h5 className="mb-2 text-lg font-bold text-gray-200">
+            {selectedSeason.title ||
+              `Season ${selectedSeason.season || selectedSeasonIdx + 1}`}
+          </h5>
+          {episodes.length === 0 ? (
+            <div className="text-gray-400">
+              No episodes found for this season.
+            </div>
+          ) : (
+            <ul className="space-y-3">
+              {episodes.map((ep, i) => (
+                <li key={ep.episode || i}>
+                  <button
+                    onClick={() => {
+                      const track = {
+                        title: ep.title,
+                        description: ep.description,
+                        file: ep.file,
+                        image: podcast.image,
+                        season: selectedSeason.season,
+                        episode: ep.episode || i + 1,
+                      };
+                      setTrack(track);
+                    }}
+                    className="w-full text-left bg-gray-900 hover:bg-purple-800/80 transition-colors p-3 rounded shadow border border-gray-700"
+                  >
+                    <strong className="text-purple-300">
+                      Ep {ep.episode || i + 1}:
+                    </strong>{" "}
+                    <span className="text-white">{ep.title}</span>
+                    <div className="text-xs text-gray-300 mt-1">
+                      {typeof ep.description === "string"
+                        ? ep.description
+                        : JSON.stringify(ep.description)}
+                    </div>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       </div>
     </div>
