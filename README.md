@@ -2,7 +2,7 @@
 
 [DJS11] Starter Instructions for the Final Portfolio Piece Submission 🚀
 
-{NETLIFY LINK : https://maybachmusicapp.netlify.app / }
+{NETLIFY LINK : https://maybachmusicapp.netlify.app }
 
 <!-- omit in toc -->
 
