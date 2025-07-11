@@ -22,18 +22,17 @@ function PodcastModel({ podcast }) {
 
   return (
     <div className="podcastModelContainer flex flex-col md:flex-row gap-8 md:gap-12">
-      
       <div className="flex-1 min-w-[220px] max-w-xs">
         <div className="relative">
           <img
             src={podcast.image}
             alt={podcast.title}
-            className="w-full rounded-lg mb-4 shadow"
+            className="w-full rounded-2xl mb-4 shadow-lg border-2 border-amber-400/40 bg-gradient-to-br from-black via-gray-900 to-gray-800"
           />
           <button
-            className={`absolute top-2 right-2 z-10 p-2 rounded-full shadow-md ${
-              isFav ? "text-red-500 bg-white" : "text-white bg-gray-900/70"
-            } transition-colors`}
+            className={`absolute top-2 right-2 z-10 p-2 rounded-full shadow-md border-2 border-amber-400/40 ${
+              isFav ? "text-red-500 bg-white" : "text-amber-100 bg-black/80"
+            } transition-colors hover:ring-2 hover:ring-amber-300/60`}
             aria-label={isFav ? "Remove from favorites" : "Add to favorites"}
             onClick={onFavClick}
           >
@@ -53,10 +52,10 @@ function PodcastModel({ podcast }) {
             </svg>
           </button>
         </div>
-        <h3 className="text-xl font-bold mt-2 mb-1 text-white">
+        <h3 className="text-xl font-bold mt-2 mb-1 text-amber-100">
           {podcast.title}
         </h3>
-        <h4 className="text-md text-purple-400 mb-2">
+        <h4 className="text-md text-amber-300 mb-2">
           {seasons.length} {seasons.length === 1 ? "Season" : "Seasons"}
         </h4>
         <p className="text-gray-300 mb-2 text-sm">
@@ -78,9 +77,7 @@ function PodcastModel({ podcast }) {
         </div>
       </div>
 
-      {/* Right Side: Seasons and Episodes */}
-      <div className="flex-2 min-w-[260px] w-full"> 
-        
+      <div className="flex-2 min-w-[260px] w-full">
         <div className="flex flex-wrap gap-2 mb-4">
           {seasons.map((season, idx) => (
             <button
@@ -96,7 +93,7 @@ function PodcastModel({ podcast }) {
             </button>
           ))}
         </div>
-        {/* Episodes List */}
+
         <div className="episodesList">
           <h5 className="mb-2 text-lg font-bold text-gray-200">
             {selectedSeason.title ||
