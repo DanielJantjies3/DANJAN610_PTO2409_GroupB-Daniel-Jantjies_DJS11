@@ -5,55 +5,51 @@ const PodcastContext = createContext();
 export const usePodcastContext = () => useContext(PodcastContext);
 
 export const PodcastProvider = ({ children }) => {
+  const [track, setTrack] = useState(null);
 
-const [track, setTrack] = useState(null);
+  useEffect(() => {
+    const storedCurrent = localStorage.getItem("currentTrack");
+    if (storedCurrent) {
+      setTrack(JSON.parse(storedCurrent));
+    }
+  }, []);
 
-useEffect(() => {
-const storedCurrent = localStorage.getItem("currentTrack");
-if (storedCurrent) {
-setTrack(JSON.parse(storedCurrent));
+  useEffect(() => {
+    if (track && track.file && audioRef.current) {
+      audioRef.current.load();
+      audioRef.current.play().catch(() => {});
+      setPlayStatus(true);
+    }
+  }, [track]);
 
-}
-}, []);
+  const audioRef = useRef(null);
+  const seekBg = useRef();
+  const seekBar = useRef();
+  const [playStatus, setPlayStatus] = useState(false);
+  const [time, setTime] = useState({
+    currentTime: {
+      second: 0,
+      minute: 0,
+    },
+    totalTime: {
+      second: 0,
+      minute: 0,
+    },
+  });
 
-useEffect(() => {
-if (track && track.file && audioRef.current) {
+  const play = () => {
+    if (audioRef.current) {
+      audioRef.current.play();
+      setPlayStatus(true);
+    }
+  };
 
-audioRef.current.load(); 
-audioRef.current.play().catch(() => {}); 
-setPlayStatus(true);
-}
-}, [track]);
-
-const audioRef = useRef(null);
-const seekBg = useRef();
-const seekBar = useRef();
-const [playStatus, setPlayStatus] = useState(false);
-const [time, setTime] = useState({
-currentTime: {
-second: 0,
-minute: 0,
-},
-totalTime: {
-second: 0,
-minute: 0,
-},
-});
-
-const play = () => {
-if (audioRef.current) {
-audioRef.current.play();
-setPlayStatus(true);
-}
-};
-
-const pause = () => {
-if (audioRef.current) {
-audioRef.current.pause();
-setPlayStatus(false);
-}
-};
-
+  const pause = () => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      setPlayStatus(false);
+    }
+  };
 
   const [favorites, setFavorites] = useState([]);
 
