@@ -113,54 +113,53 @@ function Player() {
   }
 
   return (
-    <div className="w-full flex items-center justify-between px-4 py-2 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 border-t border-gray-800 shadow-2xl min-h-[72px]">
+    <div className="w-full flex items-center justify-between px-4 py-2 bg-gradient-to-r from-black via-gray-900 to-black border-t-2 border-amber-400/60 shadow-2xl min-h-[72px]">
       <div className="flex items-center gap-4 min-w-0 w-1/3">
         <img
-          className="w-14 h-14 object-cover rounded shadow-md"
+          className="w-14 h-14 object-cover rounded shadow-md border-2 border-amber-400/40 bg-gradient-to-br from-black via-gray-900 to-gray-800"
           src={track.image}
           alt=""
         />
         <div className="truncate">
-          <p className="text-base font-semibold truncate text-white">
+          <p className="text-base font-semibold truncate text-amber-100">
             {track.title}
           </p>
-          <p className="text-xs text-gray-400 truncate">{`Season ${track.season} Ep ${track.episode}`}</p>
+          <p className="text-xs text-amber-200/80 truncate">{`Season ${track.season} Ep ${track.episode}`}</p>
         </div>
       </div>
 
-      {/* Center: Controls & Seekbar */}
       <div className="flex flex-col items-center gap-1 w-1/3 min-w-[200px] max-w-[500px] mx-auto">
         <div className="flex gap-6 items-center mb-1">
           {playStatus ? (
             <button
               onClick={pause}
-              className="bg-white/10 hover:bg-white/20 rounded-full p-2 transition"
+              className="bg-gradient-to-br from-amber-400 via-yellow-300 to-yellow-100 text-black rounded-full p-2 transition border border-amber-300/60 shadow-md"
             >
-              <PauseIcon className="w-8 h-8 text-green-500" />
+              <PauseIcon className="w-8 h-8 text-black" />
             </button>
           ) : (
             <button
               onClick={play}
-              className="bg-white/10 hover:bg-white/20 rounded-full p-2 transition"
+              className="bg-gradient-to-br from-amber-400 via-yellow-300 to-yellow-100 text-black rounded-full p-2 transition border border-amber-300/60 shadow-md"
             >
-              <PlayIcon className="w-8 h-8 text-green-500" />
+              <PlayIcon className="w-8 h-8 text-black" />
             </button>
           )}
         </div>
         <div className="flex items-center gap-2 w-full">
-          <span className="text-xs text-gray-400 w-10 text-right">
+          <span className="text-xs text-amber-200/80 w-10 text-right">
             {formatTime(progress)}
           </span>
           <div
             ref={seekBg}
-            className="flex-1 h-1 bg-gray-700 rounded-full cursor-pointer relative mx-2"
+            className="flex-1 h-1 bg-black/70 rounded-full cursor-pointer relative mx-2 border border-amber-400/30"
             onClick={(e) => handleSeek(e, true)}
             onMouseDown={handleDragStart}
             onTouchStart={handleDragStart}
           >
             <div
               ref={seekBar}
-              className="h-full bg-green-500 rounded-full"
+              className="h-full bg-gradient-to-r from-amber-400 via-yellow-300 to-yellow-100 rounded-full"
               style={{
                 width: duration ? `${(progress / duration) * 100}%` : "0%",
               }}
@@ -175,7 +174,7 @@ function Player() {
                 width: 16,
                 height: 16,
                 borderRadius: "50%",
-                background: "#22c55e",
+                background: "#FFD700",
                 border: "2px solid #fff",
                 boxShadow: "0 0 2px #0003",
                 cursor: "pointer",
@@ -186,7 +185,7 @@ function Player() {
               onTouchStart={handleDragStart}
             ></div>
           </div>
-          <span className="text-xs text-gray-400 w-10 text-left">
+          <span className="text-xs text-amber-200/80 w-10 text-left">
             {formatTime(duration)}
           </span>
         </div>

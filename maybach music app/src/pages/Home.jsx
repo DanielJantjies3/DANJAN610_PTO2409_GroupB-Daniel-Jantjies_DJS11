@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import fuzzysearch from "fuzzysearch";
 import { fetchAllPodcasts, fetchAllPodcastsByGenre } from "../services/api";
 
-function Home({genres}) {
+function Home({ genres }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [podcasts, setPodcasts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -30,12 +30,9 @@ function Home({genres}) {
     setSearchQuery("Successfully searched for: " + searchQuery);
   };
 
-  
-  const [sortAZ, setSortAZ] = useState(null); 
+  const [sortAZ, setSortAZ] = useState(null);
   const [genreFilter, setGenreFilter] = useState("");
 
-
-  
   let filteredPodcasts = podcasts.filter((currentPodcast) =>
     fuzzysearch(searchQuery.toLowerCase(), currentPodcast.title.toLowerCase())
   );
@@ -114,7 +111,6 @@ function Home({genres}) {
             currentPodcast.genres.includes(9)
         );
         break;
-    
     }
   }
   if (sortAZ === "asc") {
@@ -136,36 +132,35 @@ function Home({genres}) {
         <input
           type="text"
           placeholder="Search Podcasts..."
-          className="searchInput border border-gray-300 rounded-l px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+          className="searchInput border border-amber-400/40 bg-black/80 text-amber-100 rounded-l px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-400 w-full max-w-md placeholder:text-amber-200/60"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
         <button
           type="submit"
-          className="searchButton bg-purple-600 text-white px-4 py-2 rounded-r hover:bg-purple-700 transition-colors"
+          className="searchButton bg-gradient-to-r from-amber-400 via-yellow-300 to-yellow-100 text-black font-bold px-4 py-2 rounded-r hover:from-yellow-200 hover:to-amber-400 transition-colors border border-amber-300/60"
         >
           Search
         </button>
       </form>
 
-      
       <div className="flex items-center gap-2 mb-2 flex-wrap">
-        <span className="text-xs text-gray-500">Sort:</span>
+        <span className="text-xs text-amber-200/70">Sort:</span>
         <button
-          className={`px-3 py-1 rounded text-xs font-semibold border ${
+          className={`px-3 py-1 rounded text-xs font-semibold border transition-all duration-200 ${
             sortAZ === "asc"
-              ? "bg-purple-600 text-white border-purple-600"
-              : "bg-white text-gray-800 border-gray-300"
+              ? "bg-gradient-to-r from-amber-400 via-yellow-300 to-yellow-100 text-black border-amber-400"
+              : "bg-black/80 text-amber-100 border-amber-400/40"
           }`}
           onClick={() => setSortAZ(sortAZ === "asc" ? null : "asc")}
         >
           A-Z
         </button>
         <button
-          className={`px-3 py-1 rounded text-xs font-semibold border ${
+          className={`px-3 py-1 rounded text-xs font-semibold border transition-all duration-200 ${
             sortAZ === "desc"
-              ? "bg-purple-600 text-white border-purple-600"
-              : "bg-white text-gray-800 border-gray-300"
+              ? "bg-gradient-to-r from-amber-400 via-yellow-300 to-yellow-100 text-black border-amber-400"
+              : "bg-black/80 text-amber-100 border-amber-400/40"
           }`}
           onClick={() => setSortAZ(sortAZ === "desc" ? null : "desc")}
         >
@@ -173,14 +168,13 @@ function Home({genres}) {
         </button>
       </div>
 
-      
       <div className="flex items-center gap-2 mb-4 flex-wrap">
-        <span className="text-xs text-gray-500">Filter by Genre:</span>
+        <span className="text-xs text-amber-200/70">Filter by Genre:</span>
         <button
-          className={`px-3 py-1 rounded text-xs font-semibold border ${
+          className={`px-3 py-1 rounded text-xs font-semibold border transition-all duration-200 ${
             genreFilter === ""
-              ? "bg-purple-600 text-white border-purple-600"
-              : "bg-white text-gray-800 border-gray-300"
+              ? "bg-gradient-to-r from-amber-400 via-yellow-300 to-yellow-100 text-black border-amber-400"
+              : "bg-black/80 text-amber-100 border-amber-400/40"
           }`}
           onClick={() => setGenreFilter("")}
         >
@@ -189,15 +183,14 @@ function Home({genres}) {
         {allGenres.map((genre) => (
           <button
             key={genre}
-            className={`px-3 py-1 rounded text-xs font-semibold border ${
+            className={`px-3 py-1 rounded text-xs font-semibold border transition-all duration-200 ${
               genreFilter === genre
-                ? "bg-purple-600 text-white border-purple-600"
-                : "bg-white text-gray-800 border-gray-300"
+                ? "bg-gradient-to-r from-amber-400 via-yellow-300 to-yellow-100 text-black border-amber-400"
+                : "bg-black/80 text-amber-100 border-amber-400/40"
             }`}
-            onClick={() =>{
+            onClick={() => {
               setGenreFilter(genre);
-              
-            } }
+            }}
           >
             {genre}
           </button>
@@ -205,7 +198,7 @@ function Home({genres}) {
       </div>
 
       {loading ? (
-        <div className="loading text-center text-lg text-gray-500">
+        <div className="loading text-center text-lg text-amber-200/70">
           Loading...
         </div>
       ) : (
