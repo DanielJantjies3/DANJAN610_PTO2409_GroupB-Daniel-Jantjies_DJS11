@@ -18,7 +18,7 @@ function App() {
       setLoading(true);
       const genreIds = Array.from({ length: 9 }, (_, i) => i + 1);
 
-      // Fetch all genres in parallel
+      
       
       const results = await Promise.all(
         genreIds.map(async (genreId) => {
@@ -34,7 +34,7 @@ function App() {
           return null;
         })
       );
-      // Filter out nulls and duplicates
+      
       const genreTitles = Array.from(new Set(results.filter(Boolean)));
       setAllGenres(genreTitles);
       setLoading(false);
@@ -54,13 +54,15 @@ function AppContent({ genres }) {
   const { track, audioRef } = usePodcastContext();
 
   return (
-    <div className="w-full h-[100dvh] min-h-0 flex flex-col overflow-hidden">
-      {/* Fixed NavBar at top */}
+    <div className="w-full h-[100dvh] min-h-0 flex flex-col overflow-hidden bg-gradient-to-br from-black via-gray-950 to-black relative">
+   
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_rgba(255,215,100,0.08)_0%,_transparent_70%)] z-0" />
+    
       <div className="flex-shrink-0 fixed top-0 left-0 w-full z-50">
         <NavBar />
       </div>
-      {/* Main content scrolls only between NavBar and Player */}
-      <div className="flex-1 pt-16 pb-24 overflow-y-auto min-h-0">
+     
+      <div className="flex-1 pt-16 pb-24 overflow-y-auto min-h-0 relative z-10">
         <main className="mainContent">
           <Routes>
             <Route path="/" element={<Home genres={genres} />} />
@@ -70,9 +72,9 @@ function AppContent({ genres }) {
           </Routes>
         </main>
       </div>
-      {/* Fixed Player at bottom */}
+      
       {track && track.file ? (
-        <div className="flex-shrink-0 fixed bottom-0 left-0 w-full z-50 bg-gray-900 border-t border-gray-800 shadow-2xl flex items-center justify-center px-2 py-2">
+        <div className="flex-shrink-0 fixed bottom-0 left-0 w-full z-50 bg-gradient-to-r from-black via-gray-900 to-black border-t-2 border-amber-400/60 shadow-2xl flex items-center justify-center px-2 py-2">
           <div className="w-full max-w-3xl mx-auto">
             <Player />
             <audio ref={audioRef} src={track.file} preload="auto"></audio>
